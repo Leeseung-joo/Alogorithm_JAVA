@@ -1,0 +1,20 @@
+class Solution {
+    public int solution(int[] num_list) {
+        int sum = 0;
+        
+        if (num_list.length >= 11) {
+            // 배열 길이가 11 이상일 때 합을 구하는 부분
+            for (int num : num_list) {
+                sum += num;
+            }
+        } else {
+            // 배열 길이가 11 미만일 때 곱을 구하는 부분
+            sum = 1;  // 곱셈을 시작하기 전에 sum을 1로 초기화
+            for (int num : num_list) {
+                sum *= num;
+            }
+        }
+      
+        return sum;
+    }
+}
