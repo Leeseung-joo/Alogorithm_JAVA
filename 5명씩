@@ -1,0 +1,12 @@
+import java.util.*;
+class Solution {
+    public String[] solution(String[] names) {
+        List<String> namesList = new ArrayList<>();
+        for(int i = 0; i<names.length; i++){
+            if(i %5 == 0){
+                namesList.add(names[i]);
+            }
+        }
+        return namesList.toArray(new String[0]);
+    }
+}
