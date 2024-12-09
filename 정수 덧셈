@@ -1,0 +1,7 @@
+class Solution {
+    public String solution(String n_str) {
+        int i = Integer.parseInt(n_str); //정수로 만들어줌으로써 앞에 0은 다 제거
+        String answer = i + "";
+        return answer;//문자열과 덧셈연산을 하면 다 문자열로 바뀜
+    }
+}
