@@ -1,0 +1,15 @@
+import java.util.*;
+public class Solution {
+    public int[] solution(int n, int k) {
+       
+        List<Integer> resultList = new ArrayList<>();
+        
+        
+        for (int i = k; i <= n; i += k) {
+            resultList.add(i);
+        }
+        
+     
+        return resultList.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
