@@ -1,0 +1,13 @@
+import java.util.*;
+class Solution {
+    public List solution(int[] num_list, int n) {
+        List<Integer> intList = new ArrayList<>();
+        intList.add(num_list[0]);
+        for(int i = 1; i < num_list.length; i++){
+            if(i % n == 0){
+                intList.add(num_list[i]);
+            }
+        }
+        return intList;
+    }
+}
