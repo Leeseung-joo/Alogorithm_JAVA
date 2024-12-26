@@ -1,0 +1,15 @@
+class Solution {
+    public int solution(int[] array) {
+        int answer = 0;
+        StringBuilder joinString = new StringBuilder();
+        for(int num:array){
+            joinString.append(num);
+        }
+        for(int i = 0; i < joinString.length(); i++){
+            if(joinString.charAt(i)=='7'){
+                answer += 1;
+            }
+        }
+        return answer;
+    }
+}
