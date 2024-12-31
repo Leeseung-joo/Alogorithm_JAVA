@@ -1,0 +1,23 @@
+class Solution {
+    public int[] solution(String[] keyinput, int[] board) {
+        int rowLength = board[0] / 2; // 가로 한계
+        int columnLength = board[1] / 2; // 세로 한계
+        int x = 0; // 초기 x 위치
+        int y = 0; // 초기 y 위치
+
+        for (int i = 0; i < keyinput.length; i++) {
+            if (keyinput[i].equals("left") && x > -rowLength) {
+                x -= 1;
+            } else if (keyinput[i].equals("right") && x < rowLength) {
+                x += 1;
+            } else if (keyinput[i].equals("up") && y < columnLength) {
+                y += 1;
+            } else if (keyinput[i].equals("down") && y > -columnLength) { // "down"에 대한 조건 추가
+                y -= 1;
+            }
+        }
+
+        int[] answer = {x, y};
+        return answer;
+    }
+}
