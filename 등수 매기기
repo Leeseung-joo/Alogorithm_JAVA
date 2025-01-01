@@ -1,0 +1,22 @@
+class Solution {
+    public int[] solution(int[][] score) {
+        double[] answer = new double[score.length];
+        for(int i = 0; i<score.length; i++){
+            answer[i] = (score[i][0]+score[i][1])/2.0;
+        }
+        int[] result = new int[answer.length];
+        for(int j = 0; j<result.length;j++){
+            result[j] = 1;
+            for(int k = 0; k<result.length;k++){
+                if(answer[j]<answer[k]){
+                    result[j]+=1;
+                }
+                
+               
+            }
+            
+}
+         return result;
+        
+    }
+}
