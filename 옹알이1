@@ -1,0 +1,20 @@
+class Solution {
+    public int solution(String[] babbling) {
+        int answer = 0;
+        String[] str = {"aya", "ye", "woo", "ma"};
+        
+        for(String bab : babbling){
+            for(String str1 : str){
+                if(bab.contains(str1)){
+                    bab = bab.replace(str1, " ");
+                }
+            }
+            bab = bab.replace(" ", "");
+            if(bab.equals("")){
+                answer += 1;
+            }
+        }
+        
+        return answer;
+    }
+}
