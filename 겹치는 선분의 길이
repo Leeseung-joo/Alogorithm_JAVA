@@ -1,0 +1,18 @@
+class Solution {
+    public int solution(int[][] lines) {
+        int[] lineCount = new int[201];
+        int result = 0;
+        
+        for(int[] line : lines){
+            int start = line[0] + 100;
+            int end = line[1] + 100;
+            for(int i = start; i< end; i++){
+                lineCount[i]++;
+            }
+        }
+        for(int count = 0; count < 201; count++){
+            if (lineCount[count] > 1) result += 1;
+        }
+        return result;
+    }
+}
