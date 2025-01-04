@@ -1,0 +1,10 @@
+import java.util.*;
+public class Main02{
+    private static int[] main(int[] arr){
+        Integer[] result = Arrays.stream(arr).boxed().distinct().toArray(Integer[]::new);
+        Arrays.sort(result, Collections.reverseOrder());
+
+        // int형 배열로 변경 후 반환, 클래스 :: 메서드 형태
+        return Arrays.stream(result).mapToInt(Integer::intValue).toArray();
+    }
+}
