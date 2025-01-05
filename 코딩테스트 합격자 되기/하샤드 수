@@ -1,0 +1,14 @@
+class Solution {
+    public boolean solution(int x) {
+        boolean answer = true;
+        int result = 0;
+        String[] str = Integer.toString(x).split("");
+        for(String i : str){
+            result += Integer.parseInt(i);
+        }
+        if(x % result != 0){
+            answer = false;
+        }
+        return answer;
+    }
+}
