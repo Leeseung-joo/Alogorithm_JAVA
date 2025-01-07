@@ -1,0 +1,16 @@
+class Solution {
+    public long solution(int price, int money, int count) {
+        long answer = -1;
+        long total = 0;
+        for(int i = 1; i<=count; i++){
+            total += i*price;
+        }
+     if(money<total)
+            answer = total-money;
+        //모자라지 않는 경우
+        else
+            answer = 0;
+
+        return answer;
+    }
+}
