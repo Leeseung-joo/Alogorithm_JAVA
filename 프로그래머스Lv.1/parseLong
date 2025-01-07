@@ -1,0 +1,17 @@
+class Solution {
+    public int solution(String t, String p) {
+        int answer = 0;
+        int length = p.length();
+        long pint = Long.parseLong(p);  // Long 타입으로 변경
+
+        for (int i = 0; i + length <= t.length(); i++) {
+            String tstr = t.substring(i, i + length);
+            long tstr_int = Long.parseLong(tstr);  // Long 타입으로 변경
+            if (tstr_int <= pint) {
+                answer++;
+            }
+        }
+
+        return answer;
+    }
+}
