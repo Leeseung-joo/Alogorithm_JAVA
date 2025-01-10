@@ -1,0 +1,12 @@
+class Solution {
+    public int solution(int a, int b, int n) {
+        int temp = n;
+        int cnt = 0;
+        while(temp >= a){
+            cnt += b*(temp/a); 
+            temp = temp%a + b*(temp/a); 
+            
+        }
+        return cnt;
+    }
+}
