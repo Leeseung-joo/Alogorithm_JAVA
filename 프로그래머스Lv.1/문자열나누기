@@ -1,0 +1,31 @@
+class Solution {
+    public int solution(String s) {
+        int answer = 0;
+        int xcount = 0;
+        int otherCount = 0;
+         Character x = 'a';
+
+        
+
+        
+        for(int i = 0; i < s.length(); i++){
+            if(xcount == 0 && otherCount == 0){
+                x = s.charAt(i);
+                xcount += 1;
+            }
+            else if(s.charAt(i) == x){
+                xcount += 1;
+            }
+            else{
+                otherCount += 1;
+            }
+            
+            if(xcount == otherCount || i == s.length()-1){
+                answer += 1;
+                xcount = 0;
+                otherCount = 0;
+            }
+        }
+        return answer;
+    }
+}
