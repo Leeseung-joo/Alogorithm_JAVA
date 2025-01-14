@@ -1,0 +1,21 @@
+class Solution {
+    public String solution(String s, String skip, int index) {
+        String answer = ""; //문자는 내부적으로 유니코드(정수값)으로 저장되어있어 문자에 숫자를 더하면 다음 문자로 이동함
+        
+        for(int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            for(int j = 0; j < index; j++){
+                c += 1;
+                if(c > 'z'){
+                    c -= 26;
+                }
+                if(skip.contains(String.valueOf(c))){
+                    j--;
+                }
+            }
+            answer += c;
+        }
+        return answer;
+        
+    }
+}
