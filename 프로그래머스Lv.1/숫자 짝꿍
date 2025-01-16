@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String X, String Y) {
+        List<String> list = new ArrayList<>();
+        String[] xstr = X.split("");
+        String[] ystr = Y.split("");
+        HashMap<String, Integer> map = new HashMap<>();
+        
+        // X 문자열을 기준으로 HashMap에 각 숫자의 빈도수를 저장
+        for (String ch : xstr) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+        
+        // Y 문자열을 순회하면서 공통된 숫자를 찾아서 리스트에 추가
+        for (String ch : ystr) {
+            if (map.containsKey(ch) && map.get(ch) > 0) {
+                map.put(ch, map.get(ch) - 1);
+                list.add(ch);
+            }
+        }
+        
+        // 내림차순 정렬
+        Collections.sort(list, Collections.reverseOrder());
+        
+        // 리스트를 문자열로 변환
+        String result = String.join("", list);
+        
+        // 결과가 "0000..." 형태라면 "0"으로 변환
+        if (result.isEmpty()){
+            return "-1";
+        }
+        if(result.replaceFirst("^0+", "").isEmpty()) {
+            return "0";
+        }
+        
+        return result;
+    }
+}
