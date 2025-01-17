@@ -1,0 +1,23 @@
+class Solution {
+    public int solution(int[] ingredient) {
+        int answer = 0;
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i = 0; i < ingredient.length; i++) {
+            stack.push(ingredient[i]);
+            
+            // 최근 4개의 재료가 '1231'인지 확인
+            if (stack.size() >= 4 && stack.peek() == 1) {
+                if (stack.get(stack.size() - 4) == 1 && stack.get(stack.size() - 3) == 2 && stack.get(stack.size() - 2) == 3) {
+                    stack.pop();  // 1 제거
+                    stack.pop();  // 2 제거
+                    stack.pop();  // 3 제거
+                    stack.pop();  // 1 제거
+                    answer++;     // 햄버거 완성
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
