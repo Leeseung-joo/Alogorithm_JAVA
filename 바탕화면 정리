@@ -1,0 +1,28 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String[] wallpaper) {
+        int[] result = new int[4];
+        int m = wallpaper.length;
+        int n = wallpaper[0].length();
+        ArrayList<Integer> listx = new ArrayList<>();
+        ArrayList<Integer> listy = new ArrayList<>();
+        
+        
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                if(wallpaper[i].charAt(j) == '#'){
+                    listx.add(i);
+                    listy.add(j);
+                }
+            }
+        }
+        Collections.sort(listx);
+        Collections.sort(listy);
+        result[0] = listx.get(0);
+        result[2] = listx.get(listx.size()-1)+1;
+        result[1] = listy.get(0);
+        result[3] = listy.get(listy.size()-1) + 1;
+        return result;
+    }
+    
+}
