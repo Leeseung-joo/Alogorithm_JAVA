@@ -1,0 +1,56 @@
+import java.util.*;
+class Solution {
+    public String solution(int[] numbers, String hand) {
+        StringBuilder sb = new StringBuilder();
+        int[][] arr = {{1,2,3}, {4,5,6},{7,8,9},{-2,0,-1}};
+        int[] l_location = {3,0};
+        int[] r_location = {3,2};
+        int l_distance = 0;
+        int r_distance = 0;
+        
+        
+        for(int number : numbers){
+            for(int i = 0; i<arr.length; i++){
+                for(int j = 0; j<arr[i].length; j++){
+                    if(arr[i][j] == number && (number == 1 || number == 4 || number == 7)){
+                        sb.append("L");
+                        l_location[0] = i;
+                        l_location[1] = j;
+                    }
+                    else if(arr[i][j] == number && (number == 3 || number == 6 || number == 9)){
+                        sb.append("R");
+                        r_location[0] = i;
+                        r_location[1] = j;
+                    }
+                    else if(arr[i][j] == number && (number == 2 || number == 5 || number == 8 || number == 0)) {
+                        l_distance = Math.abs(l_location[0]-i) + Math.abs(l_location[1]-j);
+                        r_distance = Math.abs(r_location[0]-i)+ Math.abs(r_location[1]-j);
+                        if(l_distance < r_distance){
+                            sb.append("L");
+                            l_location[0] = i;
+                            l_location[1] = j;
+                        }
+                        else if(l_distance>r_distance){
+                            sb.append("R");
+                            r_location[0] = i;
+                            r_location[1] = j;
+                        }
+                        else{
+                            if(hand.equals("right")){
+                                sb.append("R");
+                                r_location[0] = i;
+                                r_location[1] = j;
+                            }
+                            else{
+                                sb.append("L");
+                                l_location[0] = i;
+                                l_location[1] = j;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                            return sb.toString();
+    }
+}
