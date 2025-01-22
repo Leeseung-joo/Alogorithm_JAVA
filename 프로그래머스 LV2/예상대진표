@@ -1,0 +1,14 @@
+class Solution {
+    public int solution(int n, int a, int b) {
+        int answer = 0;
+
+        // 두 참가자가 같은 라운드에서 만날 때까지 진행
+        while (a != b) {
+            a = (a + 1) / 2; // 다음 라운드로 이동
+            b = (b + 1) / 2; // 다음 라운드로 이동
+            answer++; // 라운드 증가
+        }
+
+        return answer;
+    }
+}
