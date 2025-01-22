@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String[] want, int[] number, String[] discount) {
+        int result = 0;
+
+        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Integer> dis_map = new HashMap<>();
+
+        // 원하는 상품과 수량 저장
+        for (int i = 0; i < number.length; i++) {
+            map.put(want[i], number[i]);
+        }
+
+        // 슬라이딩 윈도우 시작
+        for (int i = 0; i <= discount.length - 10; i++) {
+            // 첫 번째 윈도우 초기화
+            if (i == 0) {
+                for (int j = 0; j < 10; j++) {
+                    dis_map.put(discount[j], dis_map.getOrDefault(discount[j], 0) + 1);
+                }
+            } else { // 윈도우 갱신
+                dis_map.put(discount[i - 1], dis_map.get(discount[i - 1]) - 1); // 이전 상품 제거
+                if (dis_map.get(discount[i - 1]) == 0) {
+                    dis_map.remove(discount[i - 1]); // 수량 0인 상품 제거
+                }
+                dis_map.put(discount[i + 9], dis_map.getOrDefault(discount[i + 9], 0) + 1); // 새 상품 추가
+            }
+
+            // 원하는 상품 조건 충족 여부 확인
+            boolean match = true;
+            for (String key : map.keySet()) {
+                if (!dis_map.getOrDefault(key, 0).equals(map.get(key))) { // 정확히 같은지 비교
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
