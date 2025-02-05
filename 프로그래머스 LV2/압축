@@ -1,0 +1,43 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String msg) {
+        int[] answer = {};
+        HashMap<String, Integer> map = new HashMap<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        int lastNum = 0;
+        
+        for(char ch = 'A'; ch <= 'Z'; ch++){
+            map.put(String.valueOf(ch), ch-64);
+            if(ch == 'Z'){
+                lastNum = ch-64;
+            }
+        }
+        
+        int start = 0;
+        int end = 1;
+        
+        while (end <= msg.length()) {
+            String cur = msg.substring(start, end); // Current substring.
+            int curNum = map.getOrDefault(cur, 0); // Check if the substring exists in the map.
+
+            if (curNum == 0) { // If current substring is not in the map.
+                if (end - 1 > start) { // Add the last valid word before cur.
+                    result.add(map.get(msg.substring(start, end - 1)));
+                }
+                map.put(cur, ++lastNum); // Add the new word to the map.
+                start = end - 1; // Update start and end for the next word.
+                end = start + 1;
+            } else {
+                end++; // Continue expanding until we find a word that isn't in the dictionary.
+            }
+        }
+
+        // Add the last valid word to result.
+        if (start < msg.length()) {
+            result.add(map.get(msg.substring(start)));
+        }
+
+        // Convert ArrayList to int[] and return.
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
