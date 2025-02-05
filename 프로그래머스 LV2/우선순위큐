@@ -1,0 +1,26 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] scoville, int K) {
+        int answer = 0;
+        
+        PriorityQueue<Integer> heap = new PriorityQueue();
+        
+        for(int i : scoville){
+            heap.add(i);
+        }
+        while(heap.peek() < K){
+            if(heap.size() == 1){
+                return -1;
+            }
+        
+        int a = heap.poll();
+        int b = heap.poll(); //가장 앞에 있는 값을 리턴하고 삭제
+        
+        int result = a + b*2;
+        heap.add(result);
+        answer++;
+        }
+        return answer;
+    }
+        
+}
