@@ -1,0 +1,58 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] genres, int[] plays) {
+        // 장르별 총 재생 횟수와 각 곡의 재생횟수 저장
+        HashMap<String, ArrayList<int[]>> genreMap = new HashMap<>();
+        HashMap<String, Integer> playMap = new HashMap<>();
+        
+        for (int i = 0; i < genres.length; i++) {
+            String genre = genres[i];
+            int play = plays[i];
+            
+            // 장르가 처음 등장하는 경우
+            if (!genreMap.containsKey(genre)) {
+                genreMap.put(genre, new ArrayList<>());
+            }
+            
+            // 장르에 해당하는 곡의 정보 추가
+            genreMap.get(genre).add(new int[]{i, play});
+            
+            // 장르별 총 재생 횟수 업데이트
+            playMap.put(genre, playMap.getOrDefault(genre, 0) + play);
+        }
+        
+        // 장르별 총 재생 횟수 내림차순으로 정렬
+        List<String> keySet = new ArrayList<>(playMap.keySet());
+        Collections.sort(keySet, (o1, o2) -> playMap.get(o2) - playMap.get(o1));
+        
+        List<Integer> result = new ArrayList<>();
+        
+        // 장르별로 노래를 정렬
+        for (String key : keySet) {
+            ArrayList<int[]> songs = genreMap.get(key);
+            
+            // 곡들을 재생 횟수 내림차순, 재생 횟수가 같으면 고유 번호 오름차순으로 정렬
+            Collections.sort(songs, (a, b) -> {
+                if (b[1] == a[1]) {
+                    return a[0] - b[0]; // 재생 횟수가 같으면 고유번호 오름차순
+                }
+                return b[1] - a[1]; // 재생 횟수 내림차순
+            });
+            
+            // 최대 2곡만 추가
+            int cnt = 0;
+            for (int[] song : songs) {
+                if (cnt < 2) {
+                    result.add(song[0]);
+                    cnt++;
+                } else {
+                    break; // 두 곡 이상은 추가하지 않음
+                }
+            }
+        }
+        
+        // 결과를 int[] 배열로 반환
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
