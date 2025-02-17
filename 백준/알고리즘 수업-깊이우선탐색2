@@ -1,0 +1,56 @@
+import java.util.*;
+import java.io.*;
+
+public class Solution_24480 {
+    static ArrayList<Integer>[] graph; //인접리스트
+    static boolean[] visited; //방문 여부
+    static int cnt = 1;
+    static int[] answer;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
+
+        graph = new ArrayList[n + 1];
+        visited = new boolean[n + 1];
+        for (int i = 0; i < graph.length; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph[a].add(b);
+            graph[b].add(a);
+        }
+
+        answer = new int[n + 1]; // answer 배열 초기화
+
+        for (ArrayList<Integer> a : graph) {
+            Collections.sort(a, Collections.reverseOrder());
+        }
+
+        dfs(r); // DFS 호출
+
+        // 방문 순서 출력
+        for (int i = 1; i <= n; i++) {
+            System.out.println(answer[i]);
+        }
+    }
+
+    public static void dfs(int r) {
+        visited[r] = true;
+        answer[r] = cnt++; // 방문 순서 기록
+
+        for (int i : graph[r]) {
+            if (!visited[i]) {
+                dfs(i); // 방문하지 않은 인접 노드에 대해 DFS 호출
+            }
+        }
+    }
+}
