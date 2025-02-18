@@ -1,0 +1,82 @@
+import java.util.*;
+import java.io.*;
+
+public class Main_2644{
+
+    static ArrayList<Integer>[] adjList;
+    static boolean[] visited;
+    static int cnt = 0;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+
+        int m = Integer.parseInt(br.readLine());
+        adjList = new ArrayList[n+1];
+        visited = new boolean[n+1];
+
+        for(int i = 1; i < adjList.length; i++){
+            adjList[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            adjList[x].add(y);
+            adjList[y].add(x);
+            
+        }
+
+
+        dfs(a,b,0);
+        if(cnt == 0){
+            System.out.println(-1);
+        }else{
+        System.out.println(cnt);
+ }
+}
+
+    public static void dfs(int a, int b, int depth){
+        visited[a] = true;
+        
+        if(a == b){
+            cnt = depth;
+            return;
+            
+        }
+        
+        for(int k:adjList[a]){
+            if(!visited[k]){
+                dfs(k,b, depth + 1);
+                if(cnt != 0) return;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+}
