@@ -1,0 +1,62 @@
+import java.util.*;
+import java.io.*;
+
+class Main_11725 {
+    static ArrayList<Integer>[] adjList;
+    static int[] answer;
+    static boolean[] visited;
+    
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        // 트리의 노드 개수 입력
+        int n = Integer.parseInt(br.readLine());
+        adjList = new ArrayList[n+1];
+
+        // 인접 리스트 초기화
+        for (int i = 0; i <= n; i++) {
+            adjList[i] = new ArrayList<>();
+        }
+        
+        answer = new int[n+1];  // 각 노드의 부모를 저장할 배열
+        visited = new boolean[n+1];  // 방문 여부를 확인할 배열
+        
+        // 간선 정보 입력받아 인접 리스트 채우기
+        for (int i = 0; i < n-1; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            adjList[a].add(b);
+            adjList[b].add(a);
+        }
+
+        // DFS 시작 (루트는 1번 노드)
+        dfs(1);
+
+        // 2번부터 n번 노드까지의 부모 출력
+        for (int i = 2; i <=n; i++) {
+            bw.write(answer[i] + "\n");
+        }
+
+        // BufferedWriter의 내용 flush
+        bw.flush();
+        bw.close();
+    }
+
+    // DFS 함수
+    static void dfs(int x) {
+        visited[x] = true;
+
+        // x의 인접한 모든 노드를 방문
+        for (int i : adjList[x]) {
+            if (!visited[i]) {
+                // 방문하지 않은 노드를 발견하면 부모 설정
+                answer[i] = x;  // 부모 설정
+                dfs(i);  // 그 노드에서 DFS를 계속 진행
+            }
+        }
+    }
+}
