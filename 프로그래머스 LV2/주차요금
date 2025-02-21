@@ -1,0 +1,53 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] fees, String[] records) {
+        Map<String, Integer> parking = new HashMap<>();
+        Map<String, Integer> costs = new TreeMap<>();
+
+        for (String r : records) {
+            String[] record = r.split(" ");
+            int time = getTime(record[0]); // 출차 시간
+            String carNum = record[1]; // 차량 번호
+            String io = record[2]; // 출입 여부
+
+            if (io.equals("IN")) {
+                parking.put(carNum, time);
+            }
+            if (io.equals("OUT")) {
+                if (!costs.containsKey(carNum)) { // 첫 번째 출차
+                    costs.put(carNum, time - parking.get(carNum));
+                } else { // 누적 주차 시간 계산
+                    costs.put(carNum, costs.get(carNum) + time - parking.get(carNum));
+                }
+                parking.remove(carNum);
+            }
+        }
+
+        // 23:59까지 출차하지 않은 차량 처리
+        if (!parking.isEmpty()) {
+            for (String carNum : parking.keySet()) {
+                int cost = costs.getOrDefault(carNum, 0);
+                costs.put(carNum, cost + (23 * 60 + 59) - parking.get(carNum));
+            }
+        }
+
+        // 요금 계산
+        List<Integer> answer = new ArrayList<>(costs.size());
+        for (Integer c : costs.values()) {
+            if (c <= fees[0]) {
+                answer.add(fees[1]); // 기본 요금
+            } else {
+                answer.add((int) (fees[1] + Math.ceil((double) (c - fees[0]) / fees[2]) * fees[3]));
+            }
+        }
+
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    // 시간 문자열을 분 단위로 변환
+    private static int getTime(String time) {
+        String[] t = time.split(":");
+        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
+    }
+}
