@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.*;
+
+public class Main_14888 {
+    static Map<String, Integer> map = new HashMap<>();
+    static int[] array;
+    static int max_value = Integer.MIN_VALUE;
+    static int min_value = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int n = Integer.parseInt(br.readLine());
+        array = new int[n];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            array[i] = Integer.parseInt(st.nextToken());
+        }
+
+        // 연산자 개수 입력
+        String[] op = new String[]{"+", "-", "*", "/"};
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < 4; i++) {
+            map.put(op[i], Integer.parseInt(st.nextToken()));
+        }
+
+        int sum = array[0];
+        dfs(sum, 1, n - 1);
+
+
+        // 결과 출력
+        bw.write(String.valueOf(max_value));
+        bw.newLine();
+        bw.write(String.valueOf(min_value));
+        bw.flush();
+        bw.close();
+    }
+
+    public static void dfs(int sum, int idx, int temp) {
+        if (temp == 0) {
+            max_value = Math.max(max_value, sum);
+            min_value = Math.min(min_value, sum);
+            
+        }
+
+        if (map.get("+") > 0) {
+            map.put("+", map.get("+") - 1);
+            dfs(sum + array[idx], idx + 1, temp - 1);
+            map.put("+", map.get("+") + 1);
+        }
+        if (map.get("-") > 0) {
+            map.put("-", map.get("-") - 1);
+            dfs(sum - array[idx], idx + 1, temp - 1);
+            map.put("-", map.get("-") + 1);
+        }
+        if (map.get("*") > 0) {
+            map.put("*", map.get("*") - 1);
+            dfs(sum * array[idx], idx + 1, temp - 1);
+            map.put("*", map.get("*") + 1);
+        }
+        if (map.get("/") > 0 && array[idx] != 0) { // 0으로 나누는 경우 방지
+            map.put("/", map.get("/") - 1);
+            dfs(sum / array[idx], idx + 1, temp - 1);
+            map.put("/", map.get("/") + 1);
+        }
+    }
+}
