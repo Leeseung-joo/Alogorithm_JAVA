@@ -1,0 +1,91 @@
+import java.util.*;
+import java.io.*;
+
+public class Main_1062 {
+    static String[] str_arr;
+    static ArrayList<String> list = new ArrayList<>();
+    static int max_value = 0;
+    static boolean visit[] = new boolean[26];
+    static int n,k;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        str_arr = new String[n];
+   
+
+        if(k<5){
+            System.out.println("0");
+            return;
+        }else if(k==26){
+            System.out.println(n);
+            return;
+        }else{
+            for (int i = 0; i < n; i++) {
+                String str = br.readLine();
+                str_arr[i] = str.substring(4, str.length()-4);
+            
+            }   
+            k-= 5;
+            visit['a'-'a'] = true;
+            visit['n'-'a'] = true;
+            visit['t'-'a'] = true;
+            visit['i'-'a'] = true;
+            visit['c'-'a'] = true;
+
+            dfs(0,0);
+            bw.write(String.valueOf(max_value));
+            bw.flush();
+            bw.close();
+
+        }
+       
+
+    
+    }
+    public static void dfs(int start, int count){
+        //k개를 배웟을떄 몇개의 단어를 읽을 수 있는지
+        if(count == k){
+            int num = 0;
+            for (int i = 0; i < str_arr.length; i++) {
+                boolean flag = true;
+                for(int j = 0; j < str_arr[i].length(); j++){
+                    if(!visit[str_arr[i].charAt(j)-97]){
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag) num++;
+            }
+            max_value = Math.max(max_value,num);
+            return;
+        }
+    
+        
+        //아직 k개를 배우지 않은 경우 -> 완전탐색(알파벳 개수 : 26개)
+        for(int i = start; i< 26; i++){
+            if(!visit[i]){
+                visit[i] = true;
+                dfs(i,count+1);
+                visit[i] = false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+    }
+}
+
+
+
+    
+
