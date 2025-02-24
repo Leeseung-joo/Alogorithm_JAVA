@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.ArrayList;
+public class Main_1789{
+    static long max_value = 0;
+    static ArrayList<Long> list = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        long s = Long.parseLong(br.readLine());
+        
+        long sum = 0;
+        long N = 0;
+
+        for (long i = 1; sum + i <= S; i++) { // 1부터 더하면서 S를 넘지 않는 최대 N 찾기
+            sum += i;
+            N++;
+        }
+
+        System.out.println(N);
+    }
+}
+ 
+        
+
+
