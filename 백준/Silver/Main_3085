@@ -1,0 +1,83 @@
+import java.io.*;
+import java.util.*;
+
+public class Main_3085 {
+    static char arr[][];
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        
+        int n = Integer.parseInt(br.readLine());
+        arr = new char[n][n];
+
+        for(int i = 0; i< n; i++){
+            arr[i] = br.readLine().toCharArray();
+        }
+
+
+        int answer = 0;
+        for(int i = 0; i< n; i++){
+            for(int j = 0; j+1 < n; j++){
+                if(arr[i][j] !=arr[i][j+1]){
+                    char c = arr[i][j];
+                    arr[i][j] = arr[i][j+1];
+                    arr[i][j+1] = c;
+                    int temp = countCandy(arr);
+                    if(answer < temp) answer = temp;
+                    c = arr[i][j];
+                    arr[i][j] = arr[i][j+1];
+                    arr[i][j+1] = c; //다시 되돌려주기
+                }
+                if(arr[j][i] != arr[j+1][i]){
+                    char c = arr[j][i];
+                    arr[j][i] = arr[j+1][i];
+                    arr[j+1][i] = c;
+                    int temp = countCandy(arr);
+                    if(answer < temp){
+                        answer = temp;
+                    }
+                    c = arr[j][i];
+                    arr[j][i] = arr[j+1][i];
+                    arr[j+1][i] = c;
+                   
+
+                }
+            }
+        }
+
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+
+
+
+
+
+}
+public static int countCandy(char[][] arr){
+    int answer = 1;
+    int n = arr.length;
+    for(int i = 0; i< n; i++){
+        int cnt = 1;
+        for(int j = 1; j< n; j++){
+            if(arr[i][j] == arr[i][j-1]) cnt++;
+            else cnt = 1;
+            if(answer < cnt) answer = cnt;
+        }
+        
+    cnt = 1;
+    for(int j=1; j< n; j++){
+        if(arr[j][i] == arr[j-1][i]) cnt++;
+            else cnt = 1;
+            if(answer < cnt) answer = cnt;
+        
+    }
+    }
+    return answer;
+}
+
+}
+
+
+
+
