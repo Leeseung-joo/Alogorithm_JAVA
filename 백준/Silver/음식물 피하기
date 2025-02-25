@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+public class Main_1743{ 
+    static int[][] arr;
+    static int[] dx = new int[]{1,0,-1,0};
+    static int[] dy = new int[]{0,1,0,-1};
+    static int max_value = 0;
+    static int cnt;
+    static boolean[][] visit;
+  
+    public static void main(String[] args) throws IOException{
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+        if(k == n*m){
+            System.out.println(k);
+            return;
+        }else if(k ==0){
+            System.out.println(0);
+            return;
+        }
+        
+        arr = new int[n][m];
+        visit = new boolean[n][m];
+
+        for(int i = 0; i< k; i++){
+            StringTokenizer s = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(s.nextToken());
+            int y = Integer.parseInt(s.nextToken());
+            arr[x-1][y-1] = 1;
+        }
+
+        for(int i = 0; i< arr.length; i++){
+            for (int j = 0; j < arr[i].length; j++) {
+                if(arr[i][j] == 1 && !visit[i][j]){
+                    cnt = 0;
+                    dfs(new Point(i,j));
+                    max_value = Math.max(max_value, cnt);
+                }
+            }
+        }
+        bw.write(String.valueOf(max_value));
+        bw.close();
+
+
+
+
+
+
+
+
+    }
+
+
+    public static class Point{
+        int x, y;
+        Point(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static void dfs(Point p){
+       visit[p.x][p.y] = true;
+        cnt++;
+        for(int i = 0; i< 4; i++){
+            int nx = p.x + dx[i];
+            int ny = p.y + dy[i];
+            if(nx>=0 && ny>=0&& nx<arr.length &&ny < arr[0].length){
+                if(arr[nx][ny] == 1 && !visit[nx][ny]){
+                    dfs(new Point(nx,ny));
+                }
+            }
+        } 
+    }
+}
