@@ -1,0 +1,29 @@
+import java.util.*;
+import java.io.*;
+
+public class Main_1251 {
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        List<String>str_list = new ArrayList<>();
+        String str = br.readLine();
+        for(int i = 1; i< str.length()-1;i++){
+            for(int j = i+1; j< str.length(); j++){
+                StringBuilder sb = new StringBuilder();
+                sb.append(str.substring(0, i));
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append(str.substring(i, j));
+                StringBuilder sb2 = new StringBuilder();
+                sb2.append(str.substring(j));
+                String st = sb.reverse().toString()+ sb1.reverse().toString()+sb2.reverse().toString();
+                str_list.add(st);
+            }
+            Collections.sort(str_list);
+            
+        }
+        System.out.println(str_list.get(0));
+      
+    }   
+
+}
