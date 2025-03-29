@@ -1,0 +1,11 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String input = in.next();
+        System.out.println(Integer.parseInt(input,16));
+        in.close();
+    }
+}
+출처: https://tooo1.tistory.com/4 [개발자 퉁이리:티스토리]
