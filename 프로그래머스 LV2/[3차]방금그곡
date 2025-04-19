@@ -1,0 +1,77 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String m, String[] musicinfos) {
+        m = changeMelody(m);
+        List<Music> candidates = new ArrayList<>();
+
+        for (int i = 0; i < musicinfos.length; i++) {
+            String[] info = musicinfos[i].split(",");
+            String start = info[0];
+            String end = info[1];
+            String title = info[2];
+            String melody = changeMelody(info[3]);
+
+            int playTime = getMinutes(end) - getMinutes(start);
+            String playedMelody = buildPlayedMelody(melody, playTime);
+
+            if (playedMelody.contains(m)) {
+                candidates.add(new Music(title, playTime, i));
+            }
+        }
+
+        if (candidates.isEmpty()) {
+            return "(None)";
+        }
+
+        candidates.sort(new Comparator<Music>() {
+            @Override
+            public int compare(Music o1, Music o2) {
+                if (o1.playTime != o2.playTime) {
+                    return o2.playTime - o1.playTime; // playTime 큰 순
+                }
+                return o1.order - o2.order; // 먼저 입력된 순
+            }
+        });
+
+        return candidates.get(0).title;
+    }
+
+    // 멜로디 변환
+    private String changeMelody(String melody) {
+        return melody.replaceAll("C#", "H")
+                     .replaceAll("D#", "I")
+                     .replaceAll("F#", "J")
+                     .replaceAll("G#", "K")
+                     .replaceAll("A#", "L");
+    }
+
+    // 시간 문자열을 분 단위로 변환
+    private int getMinutes(String time) {
+        String[] parts = time.split(":");
+        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
+    }
+
+    // 실제 재생된 멜로디 생성
+    private String buildPlayedMelody(String melody, int time) {
+        StringBuilder sb = new StringBuilder();
+        int len = melody.length();
+        for (int i = 0; i < time; i++) {
+            sb.append(melody.charAt(i % len));
+        }
+        return sb.toString();
+    }
+}
+
+// Music 클래스는 외부로 분리해도 되고 내부 클래스로 선언해도 됩니다.
+class Music {
+    String title;
+    int playTime;
+    int order;
+
+    Music(String title, int playTime, int order) {
+        this.title = title;
+        this.playTime = playTime;
+        this.order = order;
+    }
+}
