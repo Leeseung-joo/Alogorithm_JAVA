@@ -1,0 +1,28 @@
+import java.util.*;
+class Solution {
+    public int solution(int x, int y, int n) {
+        int answer = -1;
+   
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        boolean[] visited = new boolean[y+1];   //목표하는 수까지의 공간을 만듬
+        q.offer(new int[] {x,0}); //시작점 삽입
+        while(!q.isEmpty()){
+            int[] cur = q.poll();
+            visited[cur[0]] = true;  
+            if(cur[0] == y){
+                answer = cur[1];
+                break;
+            }//이미 해당 숫자가 도출된 적이 있다면 그 때의 cnt가 더 작거나, 적어도 같다.
+            if(cur[0]*2 <= y && !visited[cur[0]*2]) //방문하지 않았다면 큐에 집어넣음
+                q.offer(new int[] {cur[0]*2, cur[1]+1});
+            if(cur[0]*3 <= y && !visited[cur[0]*3]) //방문하지 않았다면 큐에 집어넣음
+                q.offer(new int[] {cur[0]*3, cur[1]+1});
+            if(cur[0]+n <= y && !visited[cur[0]+n]) //방문하지 않았다면 큐에 집어넣음
+                q.offer(new int[] {cur[0]+n, cur[1]+1});
+            
+            
+        }
+        return answer;
+        
+    }
+}
