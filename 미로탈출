@@ -1,0 +1,86 @@
+import java.util.*;
+
+class Solution{
+    static int[] dx = {-1,1,0,0};
+    static int[] dy = {0,0,1,-1};
+    public int solution(String[] maps){
+        int answer = -1;
+        
+        int m = maps.length;
+        int n = maps[0].length();
+        
+        int[] start = new int[2];
+        
+        int[] lever = new int[2];
+        
+        int[] end = new int[2];
+        
+        for(int i = 0; i< m; i++){ //시작 지점, 레버, 출구 좌표 저장
+            for(int j = 0; j< n; j++){
+                char ch = maps[i].charAt(j);
+                
+                if(ch == 'S'){
+                    start[0] = i;
+                    start[1] = j;
+                }else if(ch == 'L'){
+                    lever[0] = i;
+                    lever[1] = j;
+                }else if(ch == 'E'){
+                    end[0] = i;
+                    end[1] = j;
+                 }
+            }
+        }
+        
+        int a = bfs(maps, start, lever);
+        int b = bfs(maps, lever, end);
+        
+        if (a != -1 && b != -1) {
+            answer = a + b;
+        } 
+        return answer;
+            
+    }
+    
+    public int bfs(String[] maps, int[] start, int[] end){
+        int m = maps.length;
+        int n = maps[0].length();
+        
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        int[][] visited = new int[m][n];
+        
+        int x = start[0];
+        int y = start[1];
+        
+        q.offer(new int[]{x,y});
+        while(!q.isEmpty()){
+            int[] now = q.poll();
+            x = now[0];
+            y = now[1];
+            if(x == end[0] && y == end[1]){
+                return visited[x][y];
+            }
+              for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                
+                // 미로의 범위 밖, 벽, 이미 방문한 경우 생략  
+                if (nx < 0 || nx > m-1 || ny < 0 || ny > n-1 || maps[nx].charAt(ny) == 'X' || visited[nx][ny] > 0) {
+                    continue;
+                }
+                  visited[nx][ny] = visited[x][y] + 1;    
+                q.add(new int[]{nx, ny});
+                
+        }
+        
+        
+    }
+    return -1;
+    
+    
+    
+    
+    
+    }
+    
+}
