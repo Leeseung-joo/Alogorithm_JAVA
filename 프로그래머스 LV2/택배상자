@@ -1,0 +1,30 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] order) {
+        int box = 1;
+        int idx = 0;
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        
+        while(box <= order.length){
+            //박스를 컨베이어 벨트에서 하나 꺼냄
+            if(box == order[idx]){
+                idx++;
+                box++;
+            }else if(!stack.isEmpty() && stack.peek() == order[idx]){
+                stack.pop();
+                idx++;
+            }else{
+                stack.push(box);
+                box++;
+                
+            }
+        }
+        
+        while(!stack.isEmpty() && stack.peek() == order[idx]){
+            stack.pop();
+            idx++;
+        }
+        
+        return idx;
+    }
+}
