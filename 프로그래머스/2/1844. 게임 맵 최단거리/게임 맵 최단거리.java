@@ -1,52 +1,51 @@
 import java.util.*;
 
 class Solution {
-    static int[] dx = new int[]{1,0,-1,0};
-    static int[] dy = new int[]{0,1,0,-1};
-    static int[][] visited; // 거리 저장(0이면 미방문)
-    static int N, M;
-
     public int solution(int[][] maps) {
-        N = maps.length;
-        M = maps[0].length;
-        visited = new int[N][M];
+        int n = maps.length;
+        int m = maps[0].length;
 
-        // 시작이 벽이면 불가
-        if (maps[0][0] == 0) return -1;
+        int[] dx = {0, 1, 0, -1};   // 오른, 아래, 왼, 위
+        int[] dy = {1, 0, -1, 0};
 
-        bfs(new Point(0, 0), maps);
+        boolean[][] visited = new boolean[n][m];
+        ArrayDeque<Point> q = new ArrayDeque<>();
 
-        return (visited[N-1][M-1] == 0) ? -1 : visited[N-1][M-1];
-    }
+        q.offer(new Point(0, 0, 1));
+        visited[0][0] = true;
 
-    static void bfs(Point start, int[][] maps) {
-        ArrayDeque<Point> dq = new ArrayDeque<>();
-        dq.add(start);
-        visited[start.x][start.y] = 1; // 시작 거리 1
+        while (!q.isEmpty()) {
+            Point p = q.poll();
 
-        while (!dq.isEmpty()) {
-            Point cur = dq.poll();
-            int x = cur.x, y = cur.y;
-
-            // 목적지 도달 시 빠르게 종료하고 싶으면 주석 해제
-            // if (x == N-1 && y == M-1) return;
+            // 도착했으면 거리 리턴
+            if (p.x == n - 1 && p.y == m - 1) {
+                return p.distance;
+            }
 
             for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                int nx = p.x + dx[i];
+                int ny = p.y + dy[i];
 
-                if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue; // 범위
-                if (maps[nx][ny] == 0) continue;                      // 벽
-                if (visited[nx][ny] != 0) continue;                   // 이미 방문(더 짧은 경로 존재)
+                // 범위 밖
+                if (nx < 0 || ny < 0 || nx >= n || ny >= m) continue;
+                // 벽이거나 이미 방문
+                if (maps[nx][ny] == 0 || visited[nx][ny]) continue;
 
-                visited[nx][ny] = visited[x][y] + 1; // 거리 갱신
-                dq.add(new Point(nx, ny));
+                visited[nx][ny] = true;
+                q.offer(new Point(nx, ny, p.distance + 1));
             }
         }
+
+        // 도착 못 하면 -1
+        return -1;
     }
 
     static class Point {
-        int x, y;
-        Point(int x, int y) { this.x = x; this.y = y; }
+        int x, y, distance;
+        Point(int x, int y, int distance) {
+            this.x = x;
+            this.y = y;
+            this.distance = distance;
+        }
     }
 }
