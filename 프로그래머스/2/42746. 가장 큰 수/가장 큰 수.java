@@ -7,7 +7,9 @@ class Solution {
             arr[i] = String.valueOf(numbers[i]);
         }
         //내림차순
-        Arrays.sort(arr, (o1,o2) -> (o2+o1).compareTo(o1+o2));
+          Arrays.sort(arr, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+
+
         
         
         //이어 붙이기
