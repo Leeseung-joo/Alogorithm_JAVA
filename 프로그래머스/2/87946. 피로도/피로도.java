@@ -1,35 +1,43 @@
 class Solution {
-    private int maxCount = 0; //탐험할 수 있는 최대 던전 수
-    
+    static int answer = 0;
+    static boolean[] visited;
     public int solution(int k, int[][] dungeons) {
-        boolean[] visited = new boolean[dungeons.length];
-        dfs(k, dungeons, visited, 0);
-        return maxCount;
-    }
-    
-    private void dfs(int fatigue, int[][] dungeons, boolean[] visited, int count){
-        maxCount = Math.max(maxCount, count);
         
-        for(int i = 0; i < dungeons.length; i++){
-            if(!visited[i] && fatigue >= dungeons[i][0]){
-                visited[i] = true;
-                dfs(fatigue-dungeons[i][1], dungeons, visited, count+1);
-                visited[i] = false; //백트래킹 (다른 순서도 고려)!!!!중요
-                
-                
-                
-                }
+        visited = new boolean[dungeons.length];
+            dfs(dungeons, k, 0); // 진행하려고 하는 던전과, 현재 남은 인덱스
+
+        
+        
+        
+        
+        
+        
+        
+        
+        return answer;
+    }
+
+    static void dfs(int[][] list, int k,int temp){
+        
+
+        if(temp > answer){
+            answer = temp;
         }
+        
+        for(int i = 0; i < list.length; i++){
+            if(!visited[i] && k >= list[i][0]){
+                visited[i] = true;
+                dfs(list,k-list[i][1],temp+1);
+                visited[i] = false;
+            }
+        }
+            
+        
+        
+        
+        
+        
+        
+        
     }
-    
-    
-    
-        
-        
-    
-        
-        
-        
-        
-    
 }
