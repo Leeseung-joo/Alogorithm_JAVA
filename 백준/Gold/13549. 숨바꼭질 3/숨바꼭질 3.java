@@ -1,58 +1,60 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
+public class Main{
 
-public class Main { // BOJ는 클래스명 Main 필수
-    static final int LIMIT = 200000;
-    static final int INF = 100_000_000;
+  public static void main(String[] args) throws IOException {
+    
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    int N = Integer.parseInt(st.nextToken());
+    int K = Integer.parseInt(st.nextToken());
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+    int MAX = 100001;
+    int[] dist = new int[MAX];
+    Arrays.fill(dist, -1);
 
-        // N >= K면 뒤로 걷기만 하는 게 최적
-        if (N >= K) {
-            System.out.println(N - K);
-            return;
-        }
+    Deque<Integer> dq = new ArrayDeque<>();
 
-        int max = LIMIT; // 필요하면 Math.max(LIMIT, 2*K + 2)로 더 타이트하게
-        int[] dist = new int[max + 1];
-        Arrays.fill(dist, INF);
+    dq.offer(N);
+    dist[N] = 0;
 
-        Deque<Integer> dq = new ArrayDeque<>();
-        dist[N] = 0;
-        dq.add(N);
+    while(!dq.isEmpty()){
 
-        while (!dq.isEmpty()) {
-            int x = dq.pollFirst();
-            if (x == K) {
-                System.out.println(dist[x]);
-                return;
-            }
+    int cur = dq.poll();
 
-            // 0초 간선: 순간이동
-            int nx = x << 1; // 2*x
-            if (nx <= max && dist[nx] > dist[x]) {
-                dist[nx] = dist[x];
-                dq.addFirst(nx);
-            }
-
-            // 1초 간선: x-1
-            nx = x - 1;
-            if (nx >= 0 && dist[nx] > dist[x] + 1) { // 하한 체크 추가
-                dist[nx] = dist[x] + 1;
-                dq.addLast(nx);
-            }
-
-            // 1초 간선: x+1  ← 빠져있던 부분 추가
-            nx = x + 1;
-            if (nx <= max && dist[nx] > dist[x] + 1) {
-                dist[nx] = dist[x] + 1;
-                dq.addLast(nx);
-            }
-        }
+    if(cur == K){
+      System.out.println(dist[K]);;
+      return;
     }
+
+    int next = cur * 2;
+    if(next < MAX && (dist[next] == -1 || dist[next] > dist[cur])){
+      dist[next] = dist[cur];
+      dq.offerFirst(next); //이게 중요!!!
+    }
+
+
+    // 2. +1 이동 (1초)
+    next = cur + 1;
+    if (next < MAX && (dist[next] == -1 || dist[next] > dist[cur] + 1)) {
+        dist[next] = dist[cur] + 1;
+        dq.offerLast(next);
+    }
+
+    // 3. -1 이동 (1초)
+    next = cur - 1;
+    if (next >= 0 && (dist[next] == -1 || dist[next] > dist[cur] + 1)) {
+        dist[next] = dist[cur] + 1;
+        dq.offerLast(next);
+    }
+
+
+
+
+
+
+    }
+
+  }
 }
