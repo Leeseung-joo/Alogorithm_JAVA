@@ -1,25 +1,31 @@
 import java.util.*;
+
 class Solution {
     public long solution(int n, int[] works) {
-    
-        PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
-        for(int work: works){
-            q.offer(work);
+        long total = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        for (int work : works) {
+            total += work;
+            pq.offer(work);
         }
-        
-        while(n>0){
-            Integer num = q.poll();
-            if(num == null) break;
-            n--;
-            if(num-1 <= 0) continue;
-            else q.offer(num-1);
+
+        if (total <= n) {
+            return 0;
         }
-        
+
+        for (int i = 0; i < n; i++) {
+            int max = pq.poll();
+            pq.offer(max - 1);
+        }
+
         long result = 0;
-        while(!q.isEmpty()){
-            int temp = q.poll();
-            result += temp*temp;
+
+        while (!pq.isEmpty()) {
+            long num = pq.poll();
+            result += num * num;
         }
+
         return result;
     }
 }
