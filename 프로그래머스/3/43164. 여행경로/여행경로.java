@@ -1,38 +1,42 @@
 import java.util.*;
 
 class Solution {
-    boolean[] visited;
-    List<String> path = new ArrayList<>();
-    String[] answer;
-    boolean finished = false;
-    
+    static boolean[] visited;
+    static String[][] ticket;
+    static ArrayList<String> result;
+
     public String[] solution(String[][] tickets) {
-        Arrays.sort(tickets, (a, b) -> {
-            if (a[0].equals(b[0])) return a[1].compareTo(b[1]); // 출발 같으면 도착 기준
+        ticket = tickets;
+
+        Arrays.sort(ticket, (a, b) -> {
+            if (a[0].equals(b[0])) return a[1].compareTo(b[1]);
             return a[0].compareTo(b[0]);
         });
-        
-        visited = new boolean[tickets.length];
-        path.add("ICN"); // 항상 인천에서 시작
-        
-        dfs("ICN", tickets, 0);
-        
-        return answer;
+
+        visited = new boolean[ticket.length];
+        ArrayList<String> path = new ArrayList<>();
+        path.add("ICN");
+
+        dfs("ICN", 0, path);
+
+        return result.toArray(new String[0]);
     }
-    
-    void dfs(String cur, String[][] tickets, int count) {
-        if (count == tickets.length) {
-            answer = path.toArray(new String[0]);
-            finished = true;
+
+    static void dfs(String current, int length, ArrayList<String> path) {
+        if (result != null) return; // 이미 정답 찾았으면 종료
+
+        if (length == ticket.length) {
+            result = new ArrayList<>(path);
             return;
         }
-        
-        for (int i = 0; i < tickets.length; i++) {
-            if (!visited[i] && tickets[i][0].equals(cur)) {
+
+        for (int i = 0; i < ticket.length; i++) {
+            if (!visited[i] && ticket[i][0].equals(current)) {
                 visited[i] = true;
-                path.add(tickets[i][1]);
-                dfs(tickets[i][1], tickets, count + 1);
-                if (finished) return; // 첫 해답이면 바로 종료 (사전순 보장)
+                path.add(ticket[i][1]);
+
+                dfs(ticket[i][1], length + 1, path);
+
                 path.remove(path.size() - 1);
                 visited[i] = false;
             }
