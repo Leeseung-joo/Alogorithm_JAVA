@@ -1,24 +1,30 @@
 import java.util.*;
 class Solution {
     public String solution(String number, int k) {
-       
-        Stack<Character> stack = new Stack<>();
-        int keep = number.length() - k; //남겨야하는 길이
+        String answer = "";
         
-        for(int i = 0; i < number.length(); i++){
-            char digit = number.charAt(i);
+        Stack<Character> stack = new Stack<>();
+        int keep = number.length() - k;
+        
+        stack.push(number.charAt(0));
+        
+        for(int i = 1; i < number.length(); i++){
+            char current = number.charAt(i);
             
-            while(!stack.isEmpty() && k > 0 && stack.peek() < digit){
+            while(!stack.isEmpty() && k >0 && stack.peek() < current ){
+                
                 stack.pop();
                 k--;
-            }
-            stack.push(digit);
-        }
-    
+                }
+                    stack.push(current);
+                }
         StringBuilder sb = new StringBuilder();
+        
         while(!stack.isEmpty()){
             sb.append(stack.pop());
         }
-       return sb.reverse().substring(0,keep);
+        
+        return sb.reverse().substring(0,keep);
+                
     }
 }
