@@ -1,52 +1,58 @@
 import java.util.*;
 class Solution {
+    static int answer = 0;
+    static ArrayList<Integer>[] graph;
     public int solution(int n, int[][] edge) {
         
-        
-        List<List<Integer>> graph = new ArrayList<>();
+        graph = new ArrayList[n+1];
         for(int i = 0; i <= n; i++){
-            graph.add(new ArrayList<>());
-        }
-        int maxDistance = 0;
-for (int i = 0; i < edge.length; i++) {
-            int a = edge[i][0];
-            int b = edge[i][1];
-            graph.get(a).add(b);  //무방향이므로 양방향 간선 추가
-            graph.get(b).add(a);
+            graph[i] = new ArrayList<>();
         }
         
+        for(int i =0; i < edge.length; i++){
+            int from = edge[i][0];
+            int to = edge[i][1];
+            
+            graph[from].add(to); //인접 리스트 완성
+            graph[to].add(from);
+        }
         
+        dfs(n,1);
+        
+        
+            
+        return answer;
+    }
+    
+    static void dfs(int n, int start){
         int[] dist = new int[n+1];
-        Arrays.fill(dist,-1);
+        Arrays.fill(dist, -1);
         
         ArrayDeque<Integer> q = new ArrayDeque<>();
-        dist[1] = 0;
-        q.offer(1);
+        
+        dist[start] = 0;
+        q.offer(start);
         
         while(!q.isEmpty()){
-            int current = q.poll();
+            Integer now = q.poll();
             
-            for(int num : graph.get(current)){
-                if(dist[num] == -1){
-                dist[num] = dist[current]+1;
-                maxDistance = Math.max(maxDistance, dist[num]);
-                
-                q.offer(num);
+            for(int next : graph[now]){
+                if(dist[next] == -1){
+                    dist[next] = dist[now] + 1;
+                    q.offer(next);
                 }
             }
-            
-            
         }
-        int answer = 0;
+        int max = 0;
         
-        for(int i = 0; i< dist.length; i++){
-            if(maxDistance == dist[i]){
-                answer++;
+        for(int i = 2; i <= n; i++){
+            if(max < dist[i]){
+                max = dist[i];
             }
         }
-        return answer;
-        
-        
+        for(int i = 1; i <= n; i++){
+            if(max == dist[i]) answer++;
+        }
+        return;
     }
-
 }
