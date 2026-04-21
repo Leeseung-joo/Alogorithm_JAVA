@@ -30,13 +30,16 @@ public class Main {
 
             Integer a = map.get(current[1]);
             Integer b = map.get(current[2]);
-            if(a != null && a >0){
-                map.put(current[2],K);
+            if(a != null && b != null){
+                map.put(current[2],b-1);
                 map.put(current[1],a-1);
                 
             }else if(b != null && b >0){
                 map.put(current[1],K);
                 map.put(current[2],b-1);
+            }else if(a != null && a >0){
+                map.put(current[2],K);
+                map.put(current[1],a-1);
             }
         }
         StringBuilder sb = new StringBuilder();
