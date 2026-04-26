@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
     static int[] arr;
-    static int max = 0;
+    static int max = -1;
     static int N;
     static boolean[] visited;
     public static void main(String[] args) throws IOException {
